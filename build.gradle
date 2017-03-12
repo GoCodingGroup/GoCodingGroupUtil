@@ -1,0 +1,35 @@
+// Configure repo for junit download
+buildscript {
+	repositories {
+		jcenter()
+	}
+}
+
+// Add repo for junit
+repositories {
+	mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+// Configure java src dir (gradle will configure it weirdly by default)
+sourceSets.main.java.srcDir 'src'
+
+task fixEclipseError << {
+	eclipse.classpath.file.withXml {XmlProvider provider ->
+        provider.asNode().classpathentry.findAll{it.'@kind'.equals('con')}
+        .each {
+        	it.'@path'= "org.eclipse.jdt.launching.JRE_CONTAINER"
+        }
+    }
+}
+
+tasks.eclipse.finalizedBy fixEclipseError
+
+// Load all dependencies
+dependencies {
+	testCompile 'junit:junit:4.12'
+}
