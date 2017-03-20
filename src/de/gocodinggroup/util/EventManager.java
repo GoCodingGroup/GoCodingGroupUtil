@@ -60,7 +60,7 @@ public class EventManager {
 	 * 
 	 * @param event
 	 */
-	public static void dispatchEventAndWait(Event event) {
+	public static void dispatchAndWait(Event event) {
 		EventManager eManager = getEventManager();
 		eManager.dispatch(event);
 	}
@@ -71,7 +71,7 @@ public class EventManager {
 	 * 
 	 * @param event
 	 */
-	public static void dispatchEvent(Event event) {
+	public static void dispatchJavaFXEvent(Event event) {
 		EventManager eManager = getEventManager();
 		Platform.runLater(() -> eManager.dispatch(event));
 	}
